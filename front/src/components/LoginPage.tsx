@@ -82,7 +82,7 @@ export default function LoginPage({
     <div className="login-page">
       <form className="login-form" onSubmit={handleSubmit}>
         <div className="login-header">
-          <h1>Music Player</h1>
+          <h1>Discueue</h1>
         </div>
 
         <h2>Log in</h2>

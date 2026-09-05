@@ -27,7 +27,7 @@ export default function Header({
   return (
     <header className="header">
       <div className="name-area">
-        <h1>Music Player</h1>
+        <h1>Discueue</h1>
           <p> Hello, {userName}! </p>
 
       </div>
