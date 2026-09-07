@@ -32,7 +32,7 @@ This project is made to be an easy to deploy self hosted web-based music streami
 
 
 ## Technical features
-- Back end offset searching
+- Backend offset searching
 - Nginx as reverse proxy
 
 ### Data import
@@ -49,10 +49,10 @@ This project is made to be an easy to deploy self hosted web-based music streami
 │   │   ├── song2
 │   │   └── cover_image_file
 │   └── album2/
-│       ├── song1
+│       ├── song3
 │       └── cover_image_file
 └── artist2/
-    └── album1
+    └── album3
 ```
 
 ### Supported file formats
@@ -132,20 +132,15 @@ This project is made to be an easy to deploy self hosted web-based music streami
 
 ### Setting up
 - clone repo
-### Front
-
-```bash
-cd front
-npm install
-npm run build
-```
 
 ### Back 
 
 - Create empty database
 ```bash
-psql - U postgres
-CREATE DATABASE music_player;
+psql -u postgres
+CREATE DATABASE discueue_db;
+CREATE USER discueue_user WITH PASSWORD 'PASSWORD';
+GRANT ALL PRIVILEGES ON DATABASE discueue_db TO discueue_user;
 ```
 
 - Fill in database url in .env
@@ -164,11 +159,8 @@ openssl rand -out secret-key 32
 npm install
 npx prisma generate
 npx prisma migrate deploy
+npm run build
 ```
-
-- nginx.conf configuration (add path to front/dist and nginx/conf/mime.types)
-
-- start script configuration (folder for nginx.exe)
 
 
 ### Optional configuration
@@ -179,7 +171,11 @@ npx prisma migrate deploy
 - SESSION_MAX_AGE=21600 (6 hours: 6 x 60 x 60 = 21600)
 
 ### Running
-- to be completed
+```bash
+./deploy-build.sh
+./deploy-systemd.sh
+./deploy-nginx.sh
+```
 
 
 ## Known limitations
