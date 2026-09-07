@@ -14,3 +14,14 @@ fi
 
 echo
 echo "Music import completed successfully."
+
+npx tsx scripts/updateAlbumCovers.ts
+
+if [ $? -ne 0 ]; then
+    echo
+    echo "Album cover update failed."
+    exit 1
+fi
+
+echo
+echo "Album cover update completed successfully."
