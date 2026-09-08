@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { getAlbum, getArtist } from "../api/music";
 
 import type { Album as AlbumType } from "../types/Album";
 import type { Artist as ArtistType } from "../types/Artist";
@@ -69,8 +70,8 @@ export default function MainPage({
   loadingSongs,
   allArtists,
 }: MainPageProps) {
-  const [selectedAlbum, setSelectedAlbum] =
-    useState<AlbumType | null>(null);
+  const [selectedAlbumId, setSelectedAlbumId] =
+    useState<number | null>(null);
 
     const [selectedArtistId, setSelectedArtistId] =
     useState<number | null>(null);
@@ -106,17 +107,8 @@ export default function MainPage({
     );
 
   const handleSelectAlbum = (albumId: number) => {
-    const album = albums.find(
-      (album) => album.id === albumId
-    );
-
-    if (!album) {
-      return;
-    }
-
     resetView();
-    setSelectedAlbum(album);
-
+    setSelectedAlbumId(albumId);
   };
 
 
@@ -133,16 +125,13 @@ export default function MainPage({
     }
 
     resetView();
-    setSelectedAlbum(album);
+    setSelectedAlbumId(albumId);
 
   };
 
   const handleSelectArtist = (artistId: number) => {
-    resetView();
-    setSelectedArtistId(artistId);
-
-
-    
+      resetView();
+      setSelectedArtistId(artistId);
   };
 
   const handleSongMenuOpen = (song: SongType, isAlbumPage: boolean) => {
@@ -153,7 +142,7 @@ export default function MainPage({
 
   function resetView()  {
     setSearchQuery("");
-    setSelectedAlbum(null);
+    setSelectedAlbumId(null);
     setShowArtistList(false);
     setSelectedArtistId(null);
     setSideMenuOpen(false);
@@ -189,13 +178,13 @@ export default function MainPage({
           onBack={() => setSelectedArtistId(null)}
           onSelectAlbum={(album) => {
             setSelectedArtistId(null);
-            setSelectedAlbum(album);
+            setSelectedAlbumId(album.id);
           }}
         />
-      ) : selectedAlbum ? (
+      ) : selectedAlbumId ? (
         <AlbumPage
-          album={selectedAlbum}
-          onBack={() => setSelectedAlbum(null)}
+          albumId={selectedAlbumId}
+          onBack={() => setSelectedAlbumId(null)}
           onPlay={onPlay}
           onSelectArtist={setSelectedArtistId}
           onSongMenuOpen={handleSongMenuOpen}

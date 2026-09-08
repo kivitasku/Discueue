@@ -9,7 +9,7 @@ import Song from "./Song";
 import "./AlbumPage.css";
 
 interface AlbumPageProps {
-  album: AlbumType;
+  albumId: number;
   onBack: () => void;
   onPlay: (song: SongType) => void;
   onSelectArtist: (artistId: number) => void;
@@ -18,7 +18,7 @@ interface AlbumPageProps {
 }
 
 export default function AlbumPage({
-  album,
+  albumId,
   onBack,
   onPlay,
   onSelectArtist,
@@ -28,14 +28,14 @@ export default function AlbumPage({
   const [fullAlbum, setFullAlbum] = useState<AlbumType | null>(null);
 
 useEffect(() => {
-  getAlbum(album.id)
+  getAlbum(albumId)
     .then((data) => {
       setFullAlbum(data);
     })
     .catch((error) => {
       console.error("Error fetching album:", error);
     });
-}, [album.id]);
+}, [albumId]);
 
   if (!fullAlbum) {
     return (
@@ -64,11 +64,11 @@ useEffect(() => {
         <div className="album-page-header">
           <div className="album-cover-container">
 
-            {album.cover_path ? (
+            {fullAlbum.cover_path ? (
               <img
                 className="album-cover"
-                src={album.cover_path}
-                alt={`${album.title} album cover`}
+                src={fullAlbum.cover_path}
+                alt={`${fullAlbum.title} album cover`}
               />
             ) : (
               <div
