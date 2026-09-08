@@ -66,8 +66,6 @@ export async function authRoutes(
       },
     });
 
-    request.session.set("userId", user.id);
-
     return reply.code(201).send({
       id: user.id,
       username: user.username,
