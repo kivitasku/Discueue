@@ -1,4 +1,6 @@
 import { useEffect, useState } from "react";
+import { registerUser } from "../api/auth";
+import { loginUser } from "../api/auth";
 
 import "./LoginPage.css";
 
@@ -66,31 +68,13 @@ const handleSubmitLogin = async (
   setLoading(true);
 
   try {
-    const response = await fetch(
-      "/api/auth/login",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        credentials: "include",
-        body: JSON.stringify({
-          username,
-          password,
-        }),
-      }
-    );
+    await loginUser(username, password);
 
-    const data = await response.json();
-
-    if (!response.ok) {
-      setError(data.error ?? "Login failed");
-      return;
-    }
-
-    //remember username in cookie for 30 days if rememberMe is checked, otherwise delete the cookie
+    // Remember username in cookie for 30 days
     if (rememberMe) {
-      document.cookie = `rememberedUsername=${encodeURIComponent(username)}; max-age=2592000; path=/; SameSite=Lax`;
+      document.cookie = `rememberedUsername=${encodeURIComponent(
+        username
+      )}; max-age=2592000; path=/; SameSite=Lax`;
     } else {
       document.cookie =
         "rememberedUsername=; max-age=0; path=/; SameSite=Lax";
@@ -100,7 +84,12 @@ const handleSubmitLogin = async (
     onLogin();
   } catch (error) {
     console.error("Login error:", error);
-    setError("Unable to connect to the server");
+
+    if (error instanceof Error) {
+      setError(error.message);
+    } else {
+      setError("Unable to connect to the server");
+    }
   } finally {
     setLoading(false);
   }
@@ -116,38 +105,23 @@ const handleSubmitRegister = async (
   event.preventDefault();
 
   setError("");
+  setSuccess("");
   setLoading(true);
 
+
   try {
-    const response = await fetch(
-      "/api/auth/register",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        credentials: "include",
-        body: JSON.stringify({
-          username,
-          password,
-        }),
-      }
-    );
+    const data = await registerUser(username, password);
 
-    const data = await response.json();
-
-    if (!response.ok) {
-      setError(data.error ?? "Registration failed");
-      return;
-    }
-
-    // Successful registration
-    setSuccess("Registration successful!");
-
+    setSuccess(data.message ?? "Registration successful!");
     setShowPassword(false);
   } catch (error) {
     console.error("Registration error:", error);
-    setError("Unable to connect to the server");
+
+    if (error instanceof Error) {
+      setError(error.message);
+    } else {
+      setError("Unable to connect to the server");
+    }
   } finally {
     setLoading(false);
   }

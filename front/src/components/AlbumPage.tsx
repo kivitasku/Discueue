@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { getAlbum } from "../api/music";
 
 import type { Album as AlbumType } from "../types/Album";
 import type { Song as SongType } from "../types/Song";
@@ -26,24 +27,15 @@ export default function AlbumPage({
 }: AlbumPageProps) {
   const [fullAlbum, setFullAlbum] = useState<AlbumType | null>(null);
 
-  useEffect(() => {
-    fetch(`/api/albums/${album.id}`,
-      {credentials: "include"}
-    )
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Failed to fetch album");
-        }
-
-        return response.json();
-      })
-      .then((data) => {
-        setFullAlbum(data);
-      })
-      .catch((error) => {
-        console.error("Error fetching album:", error);
-      });
-  }, [album.id]);
+useEffect(() => {
+  getAlbum(album.id)
+    .then((data) => {
+      setFullAlbum(data);
+    })
+    .catch((error) => {
+      console.error("Error fetching album:", error);
+    });
+}, [album.id]);
 
   if (!fullAlbum) {
     return (

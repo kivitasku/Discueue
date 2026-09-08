@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { getArtist } from "../api/music";
 
 import type { Artist as ArtistType } from "../types/Artist";
 import type { Album as AlbumType } from "../types/Album";
@@ -20,23 +21,15 @@ export default function ArtistPage({
 }: ArtistPageProps) {
   const [artist, setArtist] = useState<ArtistType | null>(null);
 
-  useEffect(() => {
-    fetch(`/api/artists/${artistId}`,
-      {credentials: "include"})
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Failed to fetch artist");
-        }
-
-        return response.json();
-      })
-      .then((data) => {
-        setArtist(data);
-      })
-      .catch((error) => {
-        console.error("Error fetching artist:", error);
-      });
-  }, [artistId]);
+useEffect(() => {
+  getArtist(artistId)
+    .then((data) => {
+      setArtist(data);
+    })
+    .catch((error) => {
+      console.error("Error fetching artist:", error);
+    });
+}, [artistId]);
 
   if (!artist) {
     return (

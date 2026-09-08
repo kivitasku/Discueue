@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { getQueue, removeFromQueue } from "../api/queue";
 import type { Song as SongType } from "../types/Song";
 import "./QueuePanel.css";
 
@@ -20,53 +21,30 @@ export default function QueuePanel({
   const [queue, setQueue] = useState<QueueItem[]>([]);
   const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    if (!isOpen) {
-      return;
+useEffect(() => {
+  if (!isOpen) {
+    return;
+  }
+
+  const loadQueue = async () => {
+    setLoading(true);
+
+    try {
+      const data = await getQueue();
+      setQueue(data);
+    } catch (error) {
+      console.error("Failed to load queue:", error);
+    } finally {
+      setLoading(false);
     }
+  };
 
-    const loadQueue = async () => {
-      setLoading(true);
-
-      try {
-        const response = await fetch(
-          "/api/queue",
-          {
-            credentials: "include",
-          }
-        );
-
-        if (!response.ok) {
-          throw new Error("Failed to fetch queue");
-        }
-
-        const data = await response.json();
-        setQueue(data);
-      } catch (error) {
-        console.error("Failed to load queue:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    loadQueue();
-  }, [isOpen]);
+  loadQueue();
+}, [isOpen]);
 
 const handleRemove = async (queueId: number) => {
   try {
-    const response = await fetch(
-      `/api/queue/${queueId}`,
-      {
-        method: "DELETE",
-        credentials: "include",
-      }
-    );
-
-    const data = await response.json();
-
-    if (!response.ok) {
-      throw new Error(data.error || "Failed to remove song");
-    }
+    await removeFromQueue(queueId);
 
     setQueue((currentQueue) =>
       currentQueue.filter((item) => item.id !== queueId)
