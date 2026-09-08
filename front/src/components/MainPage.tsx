@@ -210,14 +210,21 @@ export default function MainPage({
       <div className="albums">
         <h2>Recently Played</h2>
 
-        {recentAlbums.map((album) => (
-          <AlbumLink
-            key={album.id}
-            album={album}
-            onClick={album => handleSelectRecentAlbum(album.id)}
-            onSelectArtist={handleSelectArtist}
-          />
-        ))}
+        {recentAlbums.length === 0 ? (
+          <div className="no-recent-albums">
+            <p>No recent albums yet...</p>
+            <p>Click right corner to check artists or search for music!</p>
+          </div>
+        ) : (
+          recentAlbums.map((album) => (
+            <AlbumLink
+              key={album.id}
+              album={album}
+              onClick={(album) => handleSelectRecentAlbum(album.id)}
+              onSelectArtist={handleSelectArtist}
+            />
+          ))
+        )}
       </div>
       )}
 
