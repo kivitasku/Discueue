@@ -69,6 +69,7 @@ export async function authRoutes(
     return reply.code(201).send({
       id: user.id,
       username: user.username,
+      message: "Check email/registeration successful!",
     });
   });
 
