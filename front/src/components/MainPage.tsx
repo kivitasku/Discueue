@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { getAlbum, getArtist } from "../api/music";
 
 import type { Album as AlbumType } from "../types/Album";
 import type { Artist as ArtistType } from "../types/Artist";
@@ -111,7 +110,7 @@ export default function MainPage({
     setSelectedAlbumId(albumId);
   };
 
-
+ // this can be removed an we can use the same handleSelectAlbum
   const handleSelectRecentAlbum = (albumId: number) => {
     console.log("Selected album ID:", albumId);
     const album = recentAlbums.find(

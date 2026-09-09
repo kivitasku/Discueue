@@ -16,7 +16,13 @@ import type { Artist as ArtistType } from "./types/Artist";
 
 import { useNotification } from "./hooks/useNotification";
 import Notification from "./components/Notification";
+
+
 import { searchMusic } from "./api/search";
+import { getCurrentUser, getRecentAlbums, logoutUser } from "./api/auth";
+import { getArtists, getAlbum } from "./api/music";
+import { updatePlayback } from "./api/playback";
+import { addToQueue, getNextQueueSong } from "./api/queue";
 
 
 function App() {
@@ -56,18 +62,18 @@ const [loadingSongs, setLoadingSongs] = useState(false);
 
 
 
-  //user related states
-  const [recentAlbums, setRecentAlbums] =
-    useState<AlbumType[]>([]);
-  const [userName, setUserName] = useState("");
-  const [playbackAlbumId, setPlaybackAlbumId] = useState<number | null>(null);
-  const [playbackAlbumSongId, setPlaybackAlbumSongId] = useState<number | null>(null);
+//user related states
+const [recentAlbums, setRecentAlbums] =
+  useState<AlbumType[]>([]);
+const [userName, setUserName] = useState("");
+const [playbackAlbumId, setPlaybackAlbumId] = useState<number | null>(null);
+const [playbackAlbumSongId, setPlaybackAlbumSongId] = useState<number | null>(null);
 
 
-  const { 
-    notification,
-    showNotification,
-  } = useNotification();
+const { 
+  notification,
+  showNotification,
+} = useNotification();
 
 
 //search query effect, triggers when searchQuery changes
@@ -210,40 +216,11 @@ const handleShowMoreSongs = async () => {
 //loads current user data from server if logged in
 const loadCurrentUser = async () => {
   try {
-    const [userResponse, recentAlbumsResponse] =
-      await Promise.all([
-        fetch("/api/auth/me", {
-          credentials: "include",
-        }),
+    const [userData, recentAlbumsData] = await Promise.all([
+      getCurrentUser(),
+      getRecentAlbums(),
+    ]);
 
-        fetch("/api/auth/recent-albums", {
-          credentials: "include",
-        }),
-      ]);
-
-    // Authentication failed
-    if (!userResponse.ok) {
-      setLoggedIn(false);
-      return;
-    }
-
-    // Check recent albums response
-    if (!recentAlbumsResponse.ok) {
-      console.error("Failed to fetch recent albums");
-      setRecentAlbums([]);
-    }
-
-    // Convert responses to JSON
-    const userData = await userResponse.json();
-
-    let recentAlbumsData = [];
-
-    if (recentAlbumsResponse.ok) {
-      recentAlbumsData = await recentAlbumsResponse.json();
-      console.log("Recent albums fetched:", recentAlbumsData);
-    }
-
-    // User is logged in
     setLoggedIn(true);
     setUserName(userData.username);
 
@@ -256,7 +233,7 @@ const loadCurrentUser = async () => {
       userData.playback_album_song_id ?? null
     );
 
-    // Restore the last played song
+    // Restore last played song
     setCurrentSong(userData.songs ?? null);
 
     // Restore recent albums
@@ -265,12 +242,10 @@ const loadCurrentUser = async () => {
     // Don't automatically start playing after login
     setShouldAutoPlay(false);
   } catch (error) {
-    console.error(
-      "Authentication check failed:",
-      error
-    );
+    console.error("Authentication check failed:", error);
 
     setLoggedIn(false);
+    setRecentAlbums([]);
   } finally {
     setAuthLoading(false);
   }
@@ -290,24 +265,10 @@ useEffect(() => {
 
   const fetchArtists = async () => {
     try {
-      const response = await fetch(
-        "/api/artists",
-        {
-          credentials: "include",
-        }
-      );
-
-      if (!response.ok) {
-        throw new Error("Failed to fetch artists");
-      }
-
-      const data = await response.json();
+      const data = await getArtists();
       setArtists(data);
     } catch (error) {
-      console.error(
-        "Error fetching artists:",
-        error
-      );
+      console.error("Error fetching artists:", error);
     }
   };
 
@@ -322,12 +283,7 @@ useEffect(() => {
   }
   const checkSession = async () => {
     try {
-      const response = await fetch(
-        "/api/auth/me",
-        {
-          credentials: "include",
-        }
-      );
+      const response = await getCurrentUser();
 
       if (response.status === 401) {
         setLoggedIn(false);
@@ -353,30 +309,15 @@ useEffect(() => {
 
 //handles the playback state update on the server side, and updates the recent albums
 //and currently playing album
-const updatePlayback = async (
+const handleUpdatePlayback = async (
   song: SongType,
   fromQueue: boolean
 ) => {
   try {
-    const response = await fetch(
-      `/api/playback/${song.id}`,
-      {
-        method: "POST",
-        credentials: "include",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          fromQueue,
-        }),
-      }
+    const data = await updatePlayback(
+      song.id,
+      fromQueue
     );
-
-    if (!response.ok) {
-      throw new Error("Failed to update playback");
-    }
-
-    const data = await response.json();
 
     setRecentAlbums(data.recentAlbums);
   } catch (error) {
@@ -390,35 +331,20 @@ const updatePlayback = async (
 //handle add to queue button call
 const handleAddToQueue = async (song: SongType) => {
   try {
-    const response = await fetch(
-      "/api/queue/add",
-      {
-        method: "POST",
-        credentials: "include",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          songId: song.id,
-        }),
-      }
-    );
+    const data = await addToQueue(song.id);
 
-    const data = await response.json();
+    console.log("Added to queue:", data);
 
-    if (response.status === 409) {
+    showNotification(`Added "${song.title}" to queue`);
+  } catch (error) {
+    if (
+      error instanceof Error &&
+      error.message === "QUEUE_FULL"
+    ) {
       showNotification("Queue is full");
       return;
     }
 
-    if (!response.ok) {
-      console.error("Failed to add song to queue:", data.error);
-      return;
-    }
-
-    console.log("Added to queue:", data);
-    showNotification(`Added "${song.title}" to queue`);
-  } catch (error) {
     console.error("Error adding song to queue:", error);
   }
 };
@@ -427,24 +353,16 @@ const handleAddToQueue = async (song: SongType) => {
 //handle song ended event
 const handleSongEnded = async () => {
   setShouldAutoPlay(true);
+
   if (!currentSong) {
     return;
   }
 
   try {
     // First try to get the next song from the user's queue
-    const queueResponse = await fetch(
-      "/api/queue/next",
-      {
-        method: "POST",
-        credentials: "include",
-      }
-    );
+    const nextSong = await getNextQueueSong();
 
-
-    if (queueResponse.ok) {
-      const nextSong = await queueResponse.json();
-
+    if (nextSong) {
       /*
        * Queue playback.
        *
@@ -452,7 +370,8 @@ const handleSongEnded = async () => {
        * playbackAlbumSongId.
        */
       setCurrentSong(nextSong);
-      await updatePlayback(nextSong, true);
+
+      await handleUpdatePlayback(nextSong, true);
 
       return;
     }
@@ -464,33 +383,27 @@ const handleSongEnded = async () => {
       return;
     }
 
-    const albumResponse = await fetch(
-      `/api/albums/${playbackAlbumId}`,
-      {
-        credentials: "include",
-      }
-    );
-
-    if (!albumResponse.ok) {
-      throw new Error("Failed to fetch album");
-    }
-
-    const album = await albumResponse.json();
+    const album = await getAlbum(playbackAlbumId);
 
     const currentIndex = album.songs.findIndex(
-      (song: SongType) => song.id === playbackAlbumSongId
+      (song: SongType) =>
+        song.id === playbackAlbumSongId
     );
 
     if (
       currentIndex !== -1 &&
       currentIndex + 1 < album.songs.length
     ) {
-      const nextAlbumSong = album.songs[currentIndex + 1];
+      const nextAlbumSong =
+        album.songs[currentIndex + 1];
 
       setCurrentSong(nextAlbumSong);
       setPlaybackAlbumSongId(nextAlbumSong.id);
 
-      await updatePlayback(nextAlbumSong, false);
+      await handleUpdatePlayback(
+        nextAlbumSong,
+        false
+      );
     } else {
       setCurrentSong(null);
     }
@@ -510,17 +423,7 @@ const handleSongEnded = async () => {
 //handle logout button call
 const handleLogout = async () => {
   try {
-    const response = await fetch(
-      "/api/auth/logout",
-      {
-        method: "POST",
-        credentials: "include",
-      }
-    );
-
-    if (!response.ok) {
-      throw new Error("Logout failed");
-    }
+    await logoutUser();
 
     setLoggedIn(false);
   } catch (error) {
@@ -567,7 +470,7 @@ const handleLogout = async () => {
           setPlaybackAlbumSongId(null);
         }
 
-        updatePlayback(song, false);
+        handleUpdatePlayback(song, false);
       }}
       searchQuery={searchQuery}
       setSearchQuery={setSearchQuery}

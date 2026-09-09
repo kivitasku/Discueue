@@ -21,3 +21,15 @@ export async function getArtist(artistId: number) {
 
   return response.json();
 }
+
+export async function getArtists() {
+  const response = await fetch(`/api/artists`, {
+    credentials: "include",
+  });
+
+  if (!response.ok) {
+    throw new Error("Failed to fetch artists");
+  }
+
+  return response.json();
+}

@@ -62,3 +62,40 @@ export async function loginUser(
 
   return data;
 }
+
+export async function getCurrentUser() {
+  const response = await fetch("/api/auth/me", {
+    credentials: "include",
+  });
+
+  if (!response.ok) {
+    throw new Error("Authentication failed");
+  }
+
+  return response.json();
+}
+
+export async function getRecentAlbums() {
+  const response = await fetch("/api/auth/recent-albums", {
+    credentials: "include",
+  });
+
+  if (!response.ok) {
+    throw new Error("Failed to fetch recent albums");
+  }
+
+  return response.json();
+}
+
+export async function logoutUser() {
+  const response = await fetch("/api/auth/logout", {
+    method: "POST",
+    credentials: "include",
+  });
+
+  if (!response.ok) {
+    throw new Error("Logout failed");
+  }
+
+  return response.json();
+}
