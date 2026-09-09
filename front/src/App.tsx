@@ -61,6 +61,7 @@ const [loadingAlbums, setLoadingAlbums] = useState(false);
 const [loadingSongs, setLoadingSongs] = useState(false);
 
 
+const [playingFromQueue, setPlayingFromQueue] = useState(false);
 
 //user related states
 const [recentAlbums, setRecentAlbums] =
@@ -351,11 +352,11 @@ const handleAddToQueue = async (song: SongType) => {
 
 
 //handle song ended event
-const handleSongEnded = async () => {
+const handleSongEnded = async (): Promise<SongType | null> => {
   setShouldAutoPlay(true);
 
   if (!currentSong) {
-    return;
+    return null;
   }
 
   try {
@@ -369,18 +370,20 @@ const handleSongEnded = async () => {
        * Do NOT change playbackAlbumId or
        * playbackAlbumSongId.
        */
+      setPlayingFromQueue(true);
       setCurrentSong(nextSong);
 
       await handleUpdatePlayback(nextSong, true);
 
-      return;
+      return nextSong;
     }
 
     // Queue is empty.
     // Continue from the album we were originally playing.
+    setPlayingFromQueue(false);
     if (!playbackAlbumId) {
       setCurrentSong(null);
-      return;
+      return null;
     }
 
     const album = await getAlbum(playbackAlbumId);
@@ -404,8 +407,12 @@ const handleSongEnded = async () => {
         nextAlbumSong,
         false
       );
+
+      return nextAlbumSong;
+
     } else {
       setCurrentSong(null);
+      return null;
     }
   } catch (error) {
     console.error(
@@ -414,6 +421,7 @@ const handleSongEnded = async () => {
     );
 
     setCurrentSong(null);
+    return null;
   }
 };
 
@@ -490,6 +498,7 @@ const handleLogout = async () => {
       loadingAlbums={loadingAlbums}
       loadingSongs={loadingSongs}
       allArtists={artists}
+      playingFromQueue={playingFromQueue}
     />
 
     

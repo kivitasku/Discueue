@@ -6,9 +6,10 @@ import QueuePanel from "./QueuePanel";
 interface PlayerProps {
   song: SongType | null;
   autoPlay?: boolean;
-  onSongEnded: () => void;
+  onSongEnded: () => Promise<SongType | null>;
   onSelectArtist: (artistId: number) => void;
   onSelectAlbum: (albumId: number) => void;
+  playingFromQueue: boolean;
 }
 
 
@@ -18,9 +19,20 @@ export default function Player({
   onSongEnded,
   onSelectArtist,
   onSelectAlbum,
+  playingFromQueue,
 }: PlayerProps) {
 
   const [queueOpen, setQueueOpen] = useState(false);
+
+
+const handleSongEnded = async () => {
+  if (!song) {
+    return;
+  }
+  await onSongEnded();
+};
+
+
 
   if (!song) {
     return (
@@ -81,7 +93,7 @@ export default function Player({
         controls
         autoPlay={autoPlay}
         src={song.file_path}
-        onEnded={onSongEnded}
+        onEnded={handleSongEnded}
       />
 
       
@@ -98,6 +110,8 @@ export default function Player({
       <QueuePanel
         isOpen={queueOpen}
         onClose={() => setQueueOpen(false)}
+        currentSong={song}
+        playingFromQueue={playingFromQueue}
       />
 
 

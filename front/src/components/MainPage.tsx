@@ -5,7 +5,6 @@ import type { Artist as ArtistType } from "../types/Artist";
 import type { Song as SongType } from "../types/Song";
 
 import SearchResults from "./SearchResults";
-import AlbumLink from "./AlbumLink";
 import AlbumPage from "./AlbumPage";
 import ArtistPage from "./ArtistPage";
 import ArtistListPage from "./ArtistListPage";
@@ -27,7 +26,7 @@ interface MainPageProps {
   setSearchQuery: (query: string) => void;
   handleLogout: () => void;
   currentSong: SongType | null;
-  onSongEnded: () => void;
+  onSongEnded: () => Promise<SongType | null>;
   autoPlay: boolean;
   onAddToQueue: (song: SongType) => void;
   userName: string;
@@ -43,6 +42,8 @@ interface MainPageProps {
   loadingArtists: boolean;
   loadingAlbums: boolean;
   loadingSongs: boolean;
+
+  playingFromQueue: boolean;
 }
 
 export default function MainPage({
@@ -69,6 +70,7 @@ export default function MainPage({
   loadingAlbums,
   loadingSongs,
   allArtists,
+  playingFromQueue,
 }: MainPageProps) {
   const [selectedAlbumId, setSelectedAlbumId] =
     useState<number | null>(null);
@@ -111,23 +113,6 @@ export default function MainPage({
     setSelectedAlbumId(albumId);
   };
 
- // this can be removed an we can use the same handleSelectAlbum
-  const handleSelectRecentAlbum = (albumId: number) => {
-    console.log("Selected album ID:", albumId);
-    const album = recentAlbums.find(
-      (album) => album.id === albumId
-      
-    );
-
-    if (!album) {
-      console.error("Album not found for ID:", albumId);
-      return;
-    }
-
-    resetView();
-    setSelectedAlbumId(albumId);
-
-  };
 
   const handleSelectArtist = (artistId: number) => {
       resetView();
@@ -242,6 +227,7 @@ export default function MainPage({
       autoPlay={autoPlay} 
       onSelectArtist={handleSelectArtist}
       onSelectAlbum={handleSelectAlbum}
+      playingFromQueue={playingFromQueue}
       
     />
 

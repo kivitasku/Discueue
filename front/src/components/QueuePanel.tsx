@@ -12,11 +12,15 @@ interface QueueItem {
 interface QueuePanelProps {
   isOpen: boolean;
   onClose: () => void;
+  currentSong: SongType | null;
+  playingFromQueue: boolean;
 }
 
 export default function QueuePanel({
   isOpen,
   onClose,
+  currentSong,
+  playingFromQueue,
 }: QueuePanelProps) {
   const [queue, setQueue] = useState<QueueItem[]>([]);
   const [loading, setLoading] = useState(false);
@@ -30,7 +34,8 @@ useEffect(() => {
     setLoading(true);
 
     try {
-      const data = await getQueue();
+      const data: QueueItem[] = await getQueue();
+
       setQueue(data);
     } catch (error) {
       console.error("Failed to load queue:", error);
@@ -41,6 +46,28 @@ useEffect(() => {
 
   loadQueue();
 }, [isOpen]);
+
+useEffect(() => {
+  if (!currentSong || !playingFromQueue) {
+    return;
+  }
+
+  setQueue((currentQueue) => {
+    const index = currentQueue.findIndex(
+      (item) => item.songs.id === currentSong.id
+    );
+
+    if (index === -1) {
+      return currentQueue;
+    }
+
+    return [
+      ...currentQueue.slice(0, index),
+      ...currentQueue.slice(index + 1),
+    ];
+  });
+}, [currentSong, playingFromQueue]);
+
 
 const handleRemove = async (queueId: number) => {
   try {
