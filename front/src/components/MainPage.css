@@ -3,18 +3,3 @@ main {
   padding-top: 100px;
   padding-bottom: 110px;
 }
-
-.albums {
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-}
-
-.no-recent-albums {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  min-height: 200px;
-  text-align: center;
-}

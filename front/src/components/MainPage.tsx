@@ -9,6 +9,7 @@ import AlbumLink from "./AlbumLink";
 import AlbumPage from "./AlbumPage";
 import ArtistPage from "./ArtistPage";
 import ArtistListPage from "./ArtistListPage";
+import Home from "./Home";
 
 import "./MainPage.css";
 import Player from "./Player";
@@ -195,25 +196,13 @@ export default function MainPage({
           onSelectArtist={setSelectedArtistId}
         />
       ) : (
-      <div className="albums">
-        <h2>Recently Played</h2>
-
-        {recentAlbums.length === 0 ? (
-          <div className="no-recent-albums">
-            <p>No recent albums yet...</p>
-            <p>Click right corner to check artists or search for music!</p>
-          </div>
-        ) : (
-          recentAlbums.map((album) => (
-            <AlbumLink
-              key={album.id}
-              album={album}
-              onClick={(album) => handleSelectRecentAlbum(album.id)}
-              onSelectArtist={handleSelectArtist}
-            />
-          ))
-        )}
-      </div>
+        <Home 
+          recentAlbums={recentAlbums}
+          onSelectAlbum={(album) => {
+            setSelectedAlbumId(album.id);
+          }}
+          onSelectArtist={handleSelectArtist}
+        />
       )}
 
       <Header
