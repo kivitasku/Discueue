@@ -69,9 +69,12 @@ fi
 echo
 echo "==> Installing Nginx configuration..."
 
-sed "s|**PROJECT_ROOT**|$PROJECT_ROOT|g" 
-"$NGINX_SOURCE" 
+sed "s|__PROJECT_ROOT__|$PROJECT_ROOT|g" \
+"$NGINX_SOURCE" \
 | sudo tee "$NGINX_CONFIG" > /dev/null
+
+echo "Nginx configuration installed:"
+echo "$NGINX_CONFIG"
 
 # -----------------------------
 
