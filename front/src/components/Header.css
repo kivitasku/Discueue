@@ -13,7 +13,7 @@
   border-bottom: 1px solid #282828;
   background: #121212;
 
-
+ z-index: 1200;
   box-sizing: border-box;
 }
 

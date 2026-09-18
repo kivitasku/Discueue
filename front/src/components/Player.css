@@ -16,7 +16,7 @@
   color: #ffffff;
   border-top: 1px solid #282828;
 
-
+ z-index: 1200;
 }
 
 .player-info {
