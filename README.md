@@ -63,6 +63,7 @@ This project is made to be an easy to deploy self hosted web-based music streami
 
 #### Album covers
 - jpg, jpeg, png, webp
+- has to be named: cover/folder/front/album
 
 
 ## Technologies
@@ -138,7 +139,7 @@ This project is made to be an easy to deploy self hosted web-based music streami
 
 - Create empty database
 ```bash
-psql -u postgres
+psql -U postgres
 CREATE DATABASE discueue_db;
 CREATE USER discueue_user WITH PASSWORD 'PASSWORD';
 GRANT ALL PRIVILEGES ON DATABASE discueue_db TO discueue_user;
@@ -166,9 +167,9 @@ openssl rand -out secret-key 32
 ### Setting up
 - Run deploy commands
 ```bash
-./deploy-build.sh
-./deploy-systemd.sh
-./deploy-nginx.sh
+bash deploy-build.sh
+bash deploy-systemd.sh
+bash deploy-nginx.sh
 ```
 - OR manually
 ```bash
@@ -185,6 +186,13 @@ npx prisma migrate deploy
 npm run build
 ```
 - And configure backend service and nginx
+
+### Importing music
+- Run import music script after setting the env variable to your music directory
+```bash
+bash run-import.sh
+```
+
 
 
 ## Known limitations
