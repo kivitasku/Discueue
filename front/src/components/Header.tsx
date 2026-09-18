@@ -1,5 +1,7 @@
+import { useState } from "react";
 import "./Header.css";
 import SideMenu from "./SideMenu";
+import HeaderMenu from "./HeaderMenu";
 
 interface HeaderProps {
   searchQuery: string;
@@ -24,6 +26,8 @@ export default function Header({
   menuOpen,
   userName
 }: HeaderProps) {
+  
+
   return (
     <header className="header">
       <div className="name-area">
@@ -43,15 +47,24 @@ export default function Header({
       />
 
       <div className="side-menu-container">
-        <SideMenu
-          isOpen={menuOpen}
-          onOpen={onOpen}
-          onClose={onClose}
-          onShowArtists={onShowArtists}
-          onHome={onHome}
-          onLogout={onLogout}
-          
-        />
+      <button
+        className="menu-button"
+        onClick={onOpen}
+        aria-label="Open menu"
+      >
+        ☰
+      </button>
+
+      <HeaderMenu 
+        isOpen={menuOpen} 
+        onClose={onClose}
+        onHome={onHome}
+        onLogout={onLogout}
+        onShowArtists={onShowArtists}
+        >
+
+      </HeaderMenu>
+
       </div>
 
       

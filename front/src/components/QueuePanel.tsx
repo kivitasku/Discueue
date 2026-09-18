@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { getQueue, removeFromQueue } from "../api/queue";
 import type { Song as SongType } from "../types/Song";
 import "./QueuePanel.css";
+import SideMenu from "./SideMenu";
 
 interface QueueItem {
   id: number;
@@ -24,6 +25,7 @@ export default function QueuePanel({
 }: QueuePanelProps) {
   const [queue, setQueue] = useState<QueueItem[]>([]);
   const [loading, setLoading] = useState(false);
+
 
 useEffect(() => {
   if (!isOpen) {
@@ -81,28 +83,12 @@ const handleRemove = async (queueId: number) => {
   }
 };
 
-  if (!isOpen) {
-    return null;
-  }
+
+
 
   return (
-    <div className="queue-overlay" onClick={onClose}>
-      <div
-        className="queue-panel"
-        onClick={(event) => event.stopPropagation()}
-      >
-        <div className="queue-header">
-          <h2>Queue</h2>
 
-          <button
-            className="queue-close-button"
-            onClick={onClose}
-            aria-label="Close queue"
-          >
-            ×
-          </button>
-        </div>
-
+    <SideMenu onClose={onClose} title="Queue" isOpen={isOpen}>
         <div className="queue-list">
           {loading ? (
             <p className="queue-empty">Loading...</p>
@@ -142,7 +128,8 @@ const handleRemove = async (queueId: number) => {
             ))
           )}
         </div>
-      </div>
-    </div>
+
+    </SideMenu>
+
   );
 }

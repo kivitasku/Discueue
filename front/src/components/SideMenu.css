@@ -1,44 +1,73 @@
-.side-menu {
+.menu-overlay {
   position: fixed;
-  top: 0;
-  right: 0;
+  inset: 0;
 
-  width: 300px;
+  display: flex;
+  justify-content: flex-end;
+
+  background: rgba(0, 0, 0, 0.65);
+
+  z-index: 2000;
+}
+
+.menu-panel {
+  width: 400px;
+  max-width: 100%;
   height: 100vh;
 
-  padding: 24px;
   box-sizing: border-box;
+  padding: 24px;
 
   background: #181818;
   color: #ffffff;
 
-  box-shadow: -8px 0 30px rgba(0, 0, 0, 0.4);
+  overflow-y: auto;
 
   transform: translateX(100%);
-  transition: transform 0.25s ease;
-
-  z-index: 1100;
 }
 
-.side-menu.open {
-  transform: translateX(0);
+.menu-panel.open {
+  animation: menu-panel-in 0.3s cubic-bezier(0.22, 1, 0.36, 1) forwards;
 }
 
-.side-menu-header {
+.menu-panel.closing {
+  animation: menu-panel-out 0.25s ease-in forwards;
+}
+
+@keyframes menu-panel-in {
+  from {
+    transform: translateX(100%);
+  }
+
+  to {
+    transform: translateX(0);
+  }
+}
+
+@keyframes menu-panel-out {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(100%);
+  }
+}
+
+.menu-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
 
-  margin-bottom: 30px;
+  margin-bottom: 24px;
 }
 
-.side-menu-header h2 {
+.menu-header h2 {
   margin: 0;
-  font-size: 22px;
-  font-weight: 600;
+  font-size: 24px;
 }
 
-.close-menu {
+.menu-close-button {
   width: 36px;
   height: 36px;
 
@@ -54,67 +83,13 @@
   cursor: pointer;
 }
 
-.close-menu:hover {
+.menu-close-button:hover {
   background: #383838;
 }
 
-.menu-item {
-  width: 100%;
 
-  padding: 14px 16px;
 
-  border: none;
-  border-radius: 8px;
 
-  background: #282828;
-  color: #ffffff;
 
-  text-align: left;
-  font-size: 16px;
 
-  cursor: pointer;
 
-  transition:
-    background 0.15s ease,
-    transform 0.15s ease;
-}
-
-.menu-item:hover {
-  background: #383838;
-}
-
-.menu-item:active {
-  transform: scale(0.98);
-}
-
-.menu-button {
-  top: 20px;
-  right: 20px;
-
-  width: 44px;
-  height: 44px;
-
-  border: none;
-  border-radius: 8px;
-
-  background: #181818;
-  color: #ffffff;
-
-  font-size: 22px;
-  cursor: pointer;
-
-  z-index: 1000;
-}
-
-.menu-button:hover {
-  background: #282828;
-}
-
-.side-menu-overlay {
-  position: fixed;
-  inset: 0;
-
-  background: rgba(0, 0, 0, 0.65);
-
-  z-index: 1050;
-}

@@ -1,5 +1,6 @@
 import "./SongMenu.css";
 import type { Song as SongType } from "../types/Song";
+import SideMenu from "./SideMenu";
 
 interface SongMenuProps {
   isOpen: boolean;
@@ -34,28 +35,8 @@ export default function SongMenu({
   };
 
   return (
-    <>
 
-      {isOpen && (
-        <div
-          className="side-menu-overlay"
-          onClick={onClose}
-        />
-      )}
-
-      <div className={`side-menu ${isOpen ? "open" : ""}`}>
-        <div className="side-menu-header">
-          <h2>Menu</h2>
-
-          <button
-            className="close-menu"
-            onClick={onClose}
-            aria-label="Close menu"
-          >
-            ×
-          </button>
-        </div>
-
+    <SideMenu onClose={onClose} title="Menu" isOpen={isOpen}>
           <div className="button-container">
             <button
               className="menu-item"
@@ -106,7 +87,8 @@ export default function SongMenu({
             )}
 
           </div>
-        </div>
-    </>
+
+    </SideMenu>
+
   );
 }

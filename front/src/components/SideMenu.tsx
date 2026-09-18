@@ -1,45 +1,54 @@
+import { useEffect, useState } from "react";
 import "./SideMenu.css";
+
+
 
 interface SideMenuProps {
   isOpen: boolean;
-  onOpen: () => void;
   onClose: () => void;
-  onShowArtists: () => void;
-  onHome: () => void;
-  onLogout: () => void;
+  title: string;
+  children: React.ReactNode;
 }
 
 export default function SideMenu({
   isOpen,
-  onOpen,
   onClose,
-  onShowArtists,
-  onHome,
-  onLogout,
+  title,
+  children,
 }: SideMenuProps) {
+  const [visible, setVisible] = useState(isOpen);
+
+useEffect(() => {
+  if (isOpen) {
+    setVisible(true);
+  } else {
+    const timer = setTimeout(() => {
+      setVisible(false);
+    }, 200);
+
+    return () => clearTimeout(timer);
+  }
+}, [isOpen]);
+
+
+if (!visible) {
+  return null;
+}
+
+
+
+
   return (
-    <>
-      <button
-        className="menu-button"
-        onClick={onOpen}
-        aria-label="Open menu"
+    <div className="menu-overlay" onClick={onClose}>
+      <div
+        className={`menu-panel ${isOpen ? "open" : "closing"}`}
+        onClick={(event) => event.stopPropagation()}
       >
-        ☰
-      </button>
-
-      {isOpen && (
-        <div
-          className="side-menu-overlay"
-          onClick={onClose}
-        />
-      )}
-
-      <div className={`side-menu ${isOpen ? "open" : ""}`}>
-        <div className="side-menu-header">
-          <h2>Menu</h2>
+        <div className="menu-header">
+          <h2>{title}</h2>
 
           <button
-            className="close-menu"
+            className="menu-close-button"
             onClick={onClose}
             aria-label="Close menu"
           >
@@ -47,28 +56,11 @@ export default function SideMenu({
           </button>
         </div>
 
-        <button
-          className="menu-item"
-          onClick={onHome}
-        >
-          Home
-        </button>
-
-        <button
-          className="menu-item"
-          onClick={onShowArtists}
-        >
-          Artists
-        </button>
-
-        <button
-          className="menu-item"
-          onClick={onLogout}
-        >
-          Log out
-        </button>
+        <div className="menu-content">
+          {children}
+        </div>
 
       </div>
-    </>
+    </div>
   );
 }
