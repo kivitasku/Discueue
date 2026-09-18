@@ -7,6 +7,7 @@ import type { Album as AlbumType } from "../types/Album";
 import AlbumLink from "./AlbumLink";
 
 import "./ArtistPage.css";
+import ContentPage from "./ContentPage";
 
 interface ArtistPageProps {
   artistId: number;
@@ -33,28 +34,14 @@ useEffect(() => {
 
   if (!artist) {
     return (
-      <div className="artist-page">
-        <button
-          className="artist-back"
-          onClick={onBack}
-        >
-          ← Back
-        </button>
-
+      <ContentPage onBack={onBack}>
         <p>Loading artist...</p>
-      </div>
+      </ContentPage>
     );
   }
 
   return (
-    <div className="artist-page">
-      <button
-        className="artist-back"
-        onClick={onBack}
-      >
-        ← Back
-      </button>
-
+    <ContentPage onBack={onBack}>
       <div className="artist-page-header">
         <h1>{artist.name}</h1>
       </div>
@@ -69,6 +56,8 @@ useEffect(() => {
           />
         ))}
       </div>
-    </div>
+
+    </ContentPage>
+
   );
 }

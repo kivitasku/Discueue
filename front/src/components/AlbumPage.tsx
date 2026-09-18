@@ -7,6 +7,7 @@ import type { Song as SongType } from "../types/Song";
 import Song from "./Song";
 
 import "./AlbumPage.css";
+import ContentPage from "./ContentPage";
 
 interface AlbumPageProps {
   albumId: number;
@@ -39,60 +40,47 @@ useEffect(() => {
 
   if (!fullAlbum) {
     return (
-      <div className="album-page">
-        <button
-          className="album-back"
-          onClick={onBack}
-        >
-          ← Back
-        </button>
-
+      <ContentPage onBack={onBack}>
         <p>Loading album...</p>
-      </div>
+      </ContentPage>
     );
   }
 
   return (
-    <div className="album-page">
-      <button
-        className="album-back"
-        onClick={onBack}
-      >
-        ← Back
-      </button>
 
-        <div className="album-page-header">
-          <div className="album-cover-container">
+    <ContentPage onBack={onBack}>
+      <div className="album-page-header">
+        <div className="album-cover-container">
 
-            {fullAlbum.cover_path ? (
-              <img
-                className="album-cover"
-                src={fullAlbum.cover_path}
-                alt={`${fullAlbum.title} album cover`}
-              />
-            ) : (
-              <div
-                className="album-cover-placeholder"
-                aria-label="No album cover available"
-              />
-            )}
-          </div>
-
-          <div className="album-page-info">
-            <h1>{fullAlbum.title}</h1>
-
-            <a
-              className="album-artist-link"
-              onClick={() => onSelectArtist(fullAlbum.artists.id)}
-              role="button"
-              tabIndex={0}
-            >
-              {fullAlbum.artists.name}
-            </a>
-
-            <p>{fullAlbum.year ?? "Unknown year"}</p>
-          </div>
+          {fullAlbum.cover_path ? (
+            <img
+              className="album-cover"
+              src={fullAlbum.cover_path}
+              alt={`${fullAlbum.title} album cover`}
+            />
+          ) : (
+            <div
+              className="album-cover-placeholder"
+              aria-label="No album cover available"
+            />
+          )}
         </div>
+
+        <div className="album-page-info">
+          <h1>{fullAlbum.title}</h1>
+
+          <a
+            className="album-artist-link"
+            onClick={() => onSelectArtist(fullAlbum.artists.id)}
+            role="button"
+            tabIndex={0}
+          >
+            {fullAlbum.artists.name}
+          </a>
+
+          <p>{fullAlbum.year ?? "Unknown year"}</p>
+        </div>
+      </div>
 
       <div className="album-songs">
         {fullAlbum.songs.map((song) => (
@@ -107,6 +95,9 @@ useEffect(() => {
           />
         ))}
       </div>
-    </div>
+
+    </ContentPage>
+
+
   );
 }
