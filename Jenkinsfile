@@ -19,7 +19,10 @@ pipeline {
         stage('Prepare Test Environment') {
             steps {
                 dir('back') {
-                    sh 'mkdir -p ci-test-res'
+                    sh '''
+                        mkdir -p ci-test-res
+                        openssl rand -out secret-key 32
+                    '''
                 }
             }
         }
