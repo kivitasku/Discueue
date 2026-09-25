@@ -1,6 +1,4 @@
-import { useState } from "react";
 import "./Header.css";
-import SideMenu from "./SideMenu";
 import HeaderMenu from "./HeaderMenu";
 
 interface HeaderProps {
