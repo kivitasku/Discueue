@@ -74,8 +74,8 @@ pipeline {
         stage('Deploy Backend') {
             steps {
                 sh '''
-                    rm -rf "$DEPLOY_DIR/back/dist"
-                    cp -r back/dist "$DEPLOY_DIR/back/dist"
+                    rm -rf "$DEPLOY_DIR/back/dist/"*
+                    cp -r back/dist/. "$DEPLOY_DIR/back/dist/"
                 '''
             }
         }
@@ -83,8 +83,8 @@ pipeline {
         stage('Deploy Frontend') {
             steps {
                 sh '''
-                    rm -rf "$DEPLOY_DIR/front/dist"
-                    cp -r front/dist "$DEPLOY_DIR/front/dist"
+                    rm -rf "$DEPLOY_DIR/front/dist/"*
+                    cp -r front/dist/. "$DEPLOY_DIR/front/dist/"
                 '''
             }
         }
