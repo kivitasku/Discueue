@@ -91,7 +91,11 @@ pipeline {
 
         stage('Restart Backend') {
             steps {
-                sh 'sudo systemctl restart discueue.service'
+                sh '''
+                    whoami
+                    command -v systemctl
+                    sudo -n systemctl restart discueue.service
+                '''
             }
         }
 
