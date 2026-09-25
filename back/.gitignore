@@ -7,4 +7,4 @@ node_modules/
 res/
 /secret-key
 rest_scripts/
-./dist
+dist/
