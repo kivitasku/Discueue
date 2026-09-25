@@ -17,71 +17,91 @@ import { playbackRoutes } from "./routes/playback.js";
 import { queueRoutes } from "./routes/queue.js";
 import { searchRoutes } from "./routes/search.js";
 
-const server = Fastify({
-  logger: true
-});
-
-const SESSION_MAX_AGE = process.env.SESSION_MAX_AGE
-  ? parseInt(process.env.SESSION_MAX_AGE, 10)
-  : 6 * 60 * 60; // Default to 6 hours if not set
-
-server.register(fastifySecureSession, {
-  key: fs.readFileSync(
-    path.join(process.cwd(), "secret-key")
-  ),
-  expiry: SESSION_MAX_AGE,
-  cookie: {
-    path: "/",
-    httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
-    sameSite: "lax",
-    maxAge: SESSION_MAX_AGE,
-  },
-});
 
 
-server.register(cors, {
-  origin: "http://localhost:5173",
-  credentials: true,
-  methods: ["GET", "POST", "PUT", "DELETE"],
-});
-
-const musicDirectoryEnv = process.env.MUSIC_RES;
-
-if (!musicDirectoryEnv) {
-  throw new Error("MUSIC_RES environment variable is not set");
-}
-
-const musicDirectory = path.resolve(musicDirectoryEnv);
-
-
-server.register(fastifyStatic, {
-  root: musicDirectory,
-  prefix: "/music/",
-
-  allowedPath: (_pathName, _root, request) => {
-    const userId = request.session.get("userId");
-
-    return userId !== undefined;
-  },
-});
+export function build() {
+  const server = Fastify({
+    logger: true
+  });
 
 
 
-server.register(authRoutes);
-server.register(songRoutes);
-server.register(artistRoutes);
-server.register(albumRoutes);
-server.register(musicRoutes);
-server.register(playbackRoutes);
-server.register(queueRoutes);
-server.register(searchRoutes);
+  const SESSION_MAX_AGE = process.env.SESSION_MAX_AGE
+    ? parseInt(process.env.SESSION_MAX_AGE, 10)
+    : 6 * 60 * 60; // Default to 6 hours if not set
 
-server.listen({ port: 3000 }, (err, address) => {
-  if (err) {
-    server.log.error(err);
-    process.exit(1);
+  server.register(fastifySecureSession, {
+    key: fs.readFileSync(
+      path.join(process.cwd(), "secret-key")
+    ),
+    expiry: SESSION_MAX_AGE,
+    cookie: {
+      path: "/",
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "lax",
+      maxAge: SESSION_MAX_AGE,
+    },
+  });
+
+
+  server.register(cors, {
+    origin: "http://localhost:5173",
+    credentials: true,
+    methods: ["GET", "POST", "PUT", "DELETE"],
+  });
+
+  const musicDirectoryEnv = process.env.MUSIC_RES;
+
+  if (!musicDirectoryEnv) {
+    throw new Error("MUSIC_RES environment variable is not set");
   }
 
-  console.log(`Server running at ${address}`);
+  const musicDirectory = path.resolve(musicDirectoryEnv);
+
+
+  server.register(fastifyStatic, {
+    root: musicDirectory,
+    prefix: "/music/",
+
+    allowedPath: (_pathName, _root, request) => {
+      const userId = request.session.get("userId");
+
+      return userId !== undefined;
+    },
+  });
+
+
+
+  server.register(authRoutes);
+  server.register(songRoutes);
+  server.register(artistRoutes);
+  server.register(albumRoutes);
+  server.register(musicRoutes);
+  server.register(playbackRoutes);
+  server.register(queueRoutes);
+  server.register(searchRoutes);
+
+
+  server.get("/health", async () => {
+  return {
+    status: "ok",
+  };
 });
+
+  return server;
+}
+
+const server = build();
+
+
+if (process.env.NODE_ENV !== "test") {
+  await server.listen({ port: 3000 }, (err, address) => {
+    if (err) {
+      server.log.error(err);
+      process.exit(1);
+    }
+
+    console.log(`Server running at ${address}`);
+  });
+}
