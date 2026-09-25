@@ -71,6 +71,8 @@ pipeline {
 
 
         //deployment
+        //jenkins doesnt delete the directories, it deletes
+        //whats inside. That way it has privileges to write in to the directory
         stage('Deploy Backend') {
             steps {
                 sh '''

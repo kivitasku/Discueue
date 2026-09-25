@@ -30,7 +30,7 @@ export default function Header({
     <header className="header">
       <div className="name-area">
         <h1>Discueue</h1>
-          <p> Hello, {userName}! </p>
+          <p> Hi, {userName}! </p>
 
       </div>
 
