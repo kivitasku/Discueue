@@ -204,6 +204,9 @@ bash run-import.sh
 - Range requests for streaming
 - User playlists
 - Mobile friendliness
+- Player update: skipping songs etc.
+- Possible update on songs: import and show more data (eg. song length)
+- Search result update: first show more button shows only the selected items (eg. songs)
 
 
 
