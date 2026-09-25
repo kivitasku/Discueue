@@ -16,7 +16,20 @@ pipeline {
             }
         }
 
+        stage('Prepare Test Environment') {
+            steps {
+                dir('back') {
+                    sh 'mkdir -p ci-test-res'
+                }
+            }
+        }
+
         stage('Backend Tests') {
+            environment {
+                NODE_ENV = 'test'
+                MUSIC_RES = 'ci-test-res'
+            }
+
             steps {
                 dir('back') {
                     sh 'npm test'
