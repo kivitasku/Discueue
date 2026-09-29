@@ -458,7 +458,9 @@ const handleLogout = async () => {
   <div className="app">
 
     {notification && (
-      <Notification message={notification} />
+      <Notification 
+        message={notification.message} 
+        alert={notification.alert} />
     )}
 
     <MainPage

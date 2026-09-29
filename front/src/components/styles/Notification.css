@@ -15,6 +15,23 @@
   animation: notification-in-out 3s ease-in-out;
 }
 
+.alert {
+  position: fixed;
+  top: 24px;
+  left: 50%;
+  z-index: 9999;
+
+  padding: 12px 20px;
+  border-radius: 10px;
+
+  background: #bd0404;
+  color: rgb(0, 0, 0);
+
+  font-size: 14px;
+
+  animation: notification-in-out 3s ease-in-out;
+}
+
 @keyframes notification-in-out {
   0% {
     opacity: 0;

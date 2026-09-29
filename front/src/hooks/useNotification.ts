@@ -1,7 +1,13 @@
 import { useEffect, useState } from "react";
 
+interface Notification {
+  message: string;
+  alert?: boolean;
+}
+
 export function useNotification() {
-  const [notification, setNotification] = useState<string | null>(null);
+  const [notification, setNotification] =
+    useState<Notification | null>(null);
 
   useEffect(() => {
     if (!notification) {
@@ -15,8 +21,11 @@ export function useNotification() {
     return () => clearTimeout(timeout);
   }, [notification]);
 
-  const showNotification = (message: string) => {
-    setNotification(message);
+  const showNotification = (message: string, alert = false) => {
+    setNotification({
+      message,
+      alert,
+    });
   };
 
   return {
