@@ -79,7 +79,7 @@ const {
 
 //set tab title and icon according to currentSong
 useEffect(() => {
-  const favicon = document.querySelector<HTMLLinkElement>(
+  const disctabicon = document.querySelector<HTMLLinkElement>(
     'link[rel="icon"]'
   );
 
@@ -87,16 +87,16 @@ useEffect(() => {
     document.title = `Discueue: ${currentSong.title} - ${currentSong.artists.name}`;
 
     if (currentSong.albums?.cover_path) {
-      if (favicon) {
-        favicon.href = currentSong.albums?.cover_path;
+      if (disctabicon) {
+        disctabicon.href = currentSong.albums?.cover_path;
       }
     }
 
   } else {
     document.title = "Discueue";
 
-    if (favicon) {
-      favicon.href = "/favicon.svg";
+    if (disctabicon) {
+      disctabicon.href = "/disc.svg";
     }
   }
 }, [currentSong]);
