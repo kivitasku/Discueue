@@ -38,7 +38,7 @@ export function build() {
     cookie: {
       path: "/",
       httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
+      secure: process.env.COOKIE_SECURE === "true",
       sameSite: "lax",
       maxAge: SESSION_MAX_AGE,
     },
