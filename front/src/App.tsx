@@ -77,6 +77,30 @@ const {
 } = useNotification();
 
 
+//set tab title and icon according to currentSong
+useEffect(() => {
+  const favicon = document.querySelector<HTMLLinkElement>(
+    'link[rel="icon"]'
+  );
+
+  if (currentSong) {
+    document.title = `Discueue: ${currentSong.title} - ${currentSong.artists.name}`;
+
+    if (currentSong.albums?.cover_path) {
+      if (favicon) {
+        favicon.href = currentSong.albums?.cover_path;
+      }
+    }
+
+  } else {
+    document.title = "Discueue";
+
+    if (favicon) {
+      favicon.href = "/favicon.svg";
+    }
+  }
+}, [currentSong]);
+
 //search query effect, triggers when searchQuery changes
 useEffect(() => {
   const query = searchQuery.trim();
