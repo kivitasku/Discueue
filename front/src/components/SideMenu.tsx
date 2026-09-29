@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import "./SideMenu.css";
+import "./styles/SideMenu.css";
 
 
 

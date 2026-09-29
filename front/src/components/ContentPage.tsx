@@ -1,5 +1,5 @@
 
-import "./ContentPage.css";
+import "./styles/ContentPage.css";
 
 interface ContentPageProps {
   onBack: () => void;

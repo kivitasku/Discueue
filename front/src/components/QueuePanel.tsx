@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { getQueue, removeFromQueue } from "../api/queue";
 import type { Song as SongType } from "../types/Song";
-import "./QueuePanel.css";
+import "./styles/QueuePanel.css";
 import SideMenu from "./SideMenu";
 
 interface QueueItem {

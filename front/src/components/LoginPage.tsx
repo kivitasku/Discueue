@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { registerUser } from "../api/auth";
 import { loginUser } from "../api/auth";
 
-import "./LoginPage.css";
+import "./styles/LoginPage.css";
 
 interface LoginPageProps {
   onLogin: () => void;

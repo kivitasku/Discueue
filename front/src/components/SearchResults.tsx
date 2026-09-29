@@ -8,7 +8,7 @@ import AlbumCard from "./AlbumCard";
 
 import SongCard from "./SongCard";
 
-import "./SearchResults.css";
+import "./styles/SearchResults.css";
 
 interface SearchResultsProps {
   artists: ArtistType[];

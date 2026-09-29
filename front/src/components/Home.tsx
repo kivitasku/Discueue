@@ -3,7 +3,7 @@ import type { Album as AlbumType } from "../types/Album";
 import AlbumCard from "./AlbumCard";
 
 
-import "./Home.css";
+import "./styles/Home.css";
 
 interface HomeProps {
 

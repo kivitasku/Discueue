@@ -1,4 +1,4 @@
-import "./HeaderMenu.css";
+import "./styles/HeaderMenu.css";
 import SideMenu from "./SideMenu";
 
 interface HeaderMenuProps {

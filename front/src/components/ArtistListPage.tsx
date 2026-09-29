@@ -2,7 +2,7 @@ import type { Artist as ArtistType } from "../types/Artist";
 
 import ArtistCard from "./ArtistCard";
 
-import "./ArtistListPage.css";
+import "./styles/ArtistListPage.css";
 
 interface ArtistListPageProps {
   artists: ArtistType[];

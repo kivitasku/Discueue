@@ -6,7 +6,7 @@ import type { Album as AlbumType } from "../types/Album";
 
 import AlbumCard from "./AlbumCard";
 
-import "./ArtistPage.css";
+import "./styles/ArtistPage.css";
 import ContentPage from "./ContentPage";
 
 interface ArtistPageProps {

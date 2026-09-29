@@ -1,7 +1,7 @@
 import type { Artist as ArtistType } from "../types/Artist";
 import Card from "./Card";
 
-import "./ArtistCard.css";
+import "./styles/ArtistCard.css";
 
 interface ArtistCardProps {
   artist: ArtistType;

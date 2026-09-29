@@ -1,6 +1,6 @@
 import { useState } from "react";
 import type { Song as SongType } from "../types/Song";
-import "./Player.css";
+import "./styles/Player.css";
 import QueuePanel from "./QueuePanel";
 
 interface PlayerProps {

@@ -1,4 +1,4 @@
-import "./SongMenu.css";
+import "./styles/SongMenu.css";
 import type { Song as SongType } from "../types/Song";
 import SideMenu from "./SideMenu";
 

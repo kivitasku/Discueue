@@ -1,6 +1,6 @@
 import type { Album as AlbumType } from "../types/Album";
 import Card from "./Card";
-import "./AlbumCard.css";
+import "./styles/AlbumCard.css";
 
 interface AlbumCardProps {
   album: AlbumType;

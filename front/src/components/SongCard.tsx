@@ -1,7 +1,7 @@
 import type { Song as SongType } from "../types/Song";
 import Card from "./Card";
 
-import "./SongCard.css";
+import "./styles/SongCard.css";
 
 interface SongCardProps {
   song: SongType;
