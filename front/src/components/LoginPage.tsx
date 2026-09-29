@@ -86,8 +86,6 @@ const handleSubmitLogin = async (
     console.error("Login error:", error);
 
     if (error instanceof Error) {
-      setError(error.message);
-    } else {
       setError("Unable to connect to the server");
     }
   } finally {
