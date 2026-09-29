@@ -1,8 +1,9 @@
 import type { Song as SongType } from "../types/Song";
+import Card from "./Card";
 
-import "./Song.css";
+import "./SongCard.css";
 
-interface SongProps {
+interface SongCardProps {
   song: SongType;
   onPlay: (song: SongType) => void;
   isAlbumPage?: boolean;
@@ -13,7 +14,7 @@ interface SongProps {
   currentSong: SongType | null;
 }
 
-export default function Song({
+export default function SongCard({
   song,
   onPlay,
   isAlbumPage = false,
@@ -22,16 +23,18 @@ export default function Song({
   onSelectArtist,
   onSelectAlbum = () => {},
   currentSong,
-}: SongProps) {
+}: SongCardProps) {
   
 
 
   return (
+
+    <Card onClick={() => onPlay(song)}>
+
       <div
         className={`song ${
           isAlbumPage && song.id === currentSong?.id ? "song-current" : ""
         }`}
-        onClick={() => onPlay(song)}
       >
 
 
@@ -105,5 +108,9 @@ export default function Song({
 
 
     </div>
+
+    </Card>
+
+
   );
 }

@@ -4,7 +4,7 @@ import { getAlbum } from "../api/music";
 import type { Album as AlbumType } from "../types/Album";
 import type { Song as SongType } from "../types/Song";
 
-import Song from "./Song";
+import SongCard from "./SongCard";
 
 import "./AlbumPage.css";
 import ContentPage from "./ContentPage";
@@ -84,7 +84,7 @@ useEffect(() => {
 
       <div className="album-songs">
         {fullAlbum.songs.map((song) => (
-          <Song 
+          <SongCard 
             key={song.id}
             song={song}
             onPlay={onPlay}

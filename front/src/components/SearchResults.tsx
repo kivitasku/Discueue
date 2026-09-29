@@ -6,7 +6,7 @@ import ArtistCard from "./ArtistCard";
 
 import AlbumCard from "./AlbumCard";
 
-import Song from "./Song";
+import SongCard from "./SongCard";
 
 import "./SearchResults.css";
 
@@ -121,7 +121,7 @@ export default function SearchResults({
           <>
             <div className="search-results-songs">
               {songs.map((song) => (
-                <Song
+                <SongCard
                   key={song.id}
                   song={song}
                   onPlay={onPlay}
