@@ -1,28 +1,28 @@
-.artist-link {
+.card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 
-  border-radius: 8px;
-
+  height: 90px;
   padding: 16px 16px;
   gap: 12px;
   background: #1e1e1e;
-  
-  border-radius: 10px;
+
+  border-radius: 8px;
+
   color: #ffffff;
 
   cursor: pointer;
 
   transition: background 0.15s ease;
-  
   margin-bottom: 8px;
 }
 
-.artist-link:hover {
+.card:hover {
   background: #282828;
 }
 
-.artist-link h3 {
-  margin: 0;
-
-  font-size: 18px;
-  font-weight: 600;
+.card-content {
+  width: 100%;
+  height: 100%;
 }

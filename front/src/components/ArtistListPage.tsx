@@ -1,6 +1,6 @@
 import type { Artist as ArtistType } from "../types/Artist";
 
-import ArtistLink from "./ArtistLink";
+import ArtistCard from "./ArtistCard";
 
 import "./ArtistListPage.css";
 
@@ -16,7 +16,7 @@ export default function ArtistListPage({
   return (
     <div className="artist-list-page">
       {artists.map((artist) => (
-        <ArtistLink
+        <ArtistCard
           key={artist.id}
           artist={artist}
           onClick={onSelectArtist}

@@ -2,9 +2,9 @@ import type { Artist as ArtistType } from "../types/Artist";
 import type { Album as AlbumType } from "../types/Album";
 import type { Song as SongType } from "../types/Song";
 
-import ArtistLink from "./ArtistLink";
+import ArtistCard from "./ArtistCard";
 
-import AlbumLink from "./AlbumLink";
+import AlbumCard from "./AlbumCard";
 
 import Song from "./Song";
 
@@ -64,7 +64,7 @@ export default function SearchResults({
           <>
             <div className="search-results-artists">
               {artists.map((artist) => (
-                <ArtistLink
+                <ArtistCard
                   key={artist.id}
                   artist={artist}
                   onClick={onSelectArtist}
@@ -92,7 +92,7 @@ export default function SearchResults({
           <>
             <div className="search-results-albums">
               {albums.map((album) => (
-                <AlbumLink
+                <AlbumCard
                   key={album.id}
                   album={album}
                   onClick={() => onSelectAlbum(album.id)}

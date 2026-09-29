@@ -1,6 +1,6 @@
 import type { Album as AlbumType } from "../types/Album";
 
-import AlbumLink from "./AlbumLink";
+import AlbumCard from "./AlbumCard";
 
 
 import "./Home.css";
@@ -32,7 +32,7 @@ export default function Home({
           </div>
         ) : (
           recentAlbums.map((album) => (
-            <AlbumLink
+            <AlbumCard
               key={album.id}
               album={album}
               onClick={onSelectAlbum}

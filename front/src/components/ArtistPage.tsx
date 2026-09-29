@@ -4,7 +4,7 @@ import { getArtist } from "../api/music";
 import type { Artist as ArtistType } from "../types/Artist";
 import type { Album as AlbumType } from "../types/Album";
 
-import AlbumLink from "./AlbumLink";
+import AlbumCard from "./AlbumCard";
 
 import "./ArtistPage.css";
 import ContentPage from "./ContentPage";
@@ -48,7 +48,7 @@ useEffect(() => {
 
       <div className="artist-albums">
         {artist.albums.map((album) => (
-          <AlbumLink
+          <AlbumCard
             key={album.id}
             album={album}
             onClick={onSelectAlbum}
