@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import type { Song as SongType } from "../types/Song";
 import "./styles/Player.css";
 import QueuePanel from "./QueuePanel";
@@ -23,6 +23,27 @@ export default function Player({
 }: PlayerProps) {
 
   const [queueOpen, setQueueOpen] = useState(false);
+
+
+const audioRef = useRef<HTMLAudioElement | null>(null);
+
+useEffect(() => {
+  if (!song || !audioRef.current || !autoPlay) {
+    return;
+  }
+
+  const playSong = async () => {
+    try {
+      console.log("Trying to play:", song.title);
+      await audioRef.current?.play();
+      console.log("Playback started:", song.title);
+    } catch (error) {
+      console.error("AUTOPLAY FAILED:", error);
+    }
+  };
+
+  playSong();
+}, [song, autoPlay]);
 
 
 const handleSongEnded = async () => {
@@ -90,8 +111,8 @@ const handleSongEnded = async () => {
       </div>
 
       <audio
+        ref={audioRef}
         controls
-        autoPlay={autoPlay}
         src={song.file_path}
         onEnded={handleSongEnded}
       />
