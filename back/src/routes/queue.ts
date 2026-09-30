@@ -108,9 +108,7 @@ export async function queueRoutes(server: FastifyInstance) {
       });
 
       if (!nextQueueItem) {
-        return reply.code(400).send({
-          error: "Queue is empty",
-        });
+        return reply.code(204).send();
       }
 
       await prisma.$transaction(async (tx) => {

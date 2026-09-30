@@ -4,7 +4,19 @@ export async function getNextQueueSong() {
     credentials: "include",
   });
 
+  if (response.status === 204) {
+    return null;
+  }
+
   if (!response.ok) {
+    const errorText = await response.text();
+
+    console.error(
+      "getNextQueueSong failed:",
+      response.status,
+      errorText
+    );
+
     return null;
   }
 
