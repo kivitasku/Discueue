@@ -7,8 +7,8 @@
   padding: 12px 20px;
   border-radius: 10px;
 
-  background: #333;
-  color: white;
+  background: var(--color-notification);
+  color: var(--color-notification-text);
 
   font-size: 14px;
 
@@ -24,8 +24,8 @@
   padding: 12px 20px;
   border-radius: 10px;
 
-  background: #bd0404;
-  color: rgb(0, 0, 0);
+  background: var(--color-alert);
+  color: var(--color-alert-text);
 
   font-size: 14px;
 

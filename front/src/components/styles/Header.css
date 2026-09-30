@@ -10,8 +10,8 @@
 
   padding: 1rem 2rem;
 
-  border-bottom: 1px solid #282828;
-  background: #121212;
+  border-bottom: 1px solid var(--color-secondary);
+  background: var(--color-primary);
 
  z-index: 1200;
   box-sizing: border-box;
@@ -29,19 +29,19 @@
   padding: 10px 14px;
   border: none;
   border-radius: 20px;
-  background: #282828;
-  color: #ffffff;
+  background: var(--color-secondary);
+  color: var(--color-text-primary);
   font-size: 15px;
   outline: none;
   box-sizing: border-box;
 }
 
 .search-bar::placeholder {
-  color: #a7a7a7;
+  color: var(--color-text-secondary);
 }
 
 .search-bar:focus {
-  background: #333333;
+  background: var(--color-text-hover);
 }
 
 .side-menu-container {
@@ -60,8 +60,8 @@
   border: none;
   border-radius: 8px;
 
-  background: #181818;
-  color: #ffffff;
+  background: var(--color-secondary);
+  color: var(--color-text-primary);
 
   font-size: 22px;
   cursor: pointer;
@@ -70,5 +70,5 @@
 }
 
 .menu-button:hover {
-  background: #282828;
+  background: var(--color-text-hover);
 }

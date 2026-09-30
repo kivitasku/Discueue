@@ -45,5 +45,5 @@
   height: 100%;
   object-fit: cover;
   border-radius: 6px;
-  background: #464242;
+  background: var(--color-album-placeholder);
 }

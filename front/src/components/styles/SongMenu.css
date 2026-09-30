@@ -17,8 +17,8 @@
   border: none;
   border-radius: 8px;
 
-  background: #282828;
-  color: #ffffff;
+  background: var(--color-object);
+  color: var(--color-text-primary);
 
   text-align: left;
   font-size: 16px;
@@ -32,7 +32,7 @@
 
 
 .menu-item:hover {
-  background: #383838;
+  background: var(--color-object-hover);
 }
 
 .menu-item:active {

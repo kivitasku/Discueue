@@ -7,7 +7,7 @@
 
 .album-page-header p {
   margin: 4px 0;
-  color: #b3b3b3;
+  color: var(--color-text-secondary);
 }
 
 .album-artist-link {
@@ -54,4 +54,4 @@
   object-fit: cover; 
   border-radius: 8px; }
 
-.album-cover-placeholder { background-color: #333; }
+.album-cover-placeholder { background-color: var(--color-album-placeholder); }

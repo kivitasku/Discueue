@@ -6,11 +6,11 @@
   height: 90px;
   padding: 16px 16px;
   gap: 12px;
-  background: #1e1e1e;
+  background: var(--color-object);
 
   border-radius: 8px;
 
-  color: #ffffff;
+  color: var(--color-object-text-primary);
 
   cursor: pointer;
 
@@ -19,7 +19,7 @@
 }
 
 .card:hover {
-  background: #282828;
+  background: var(--color-object-hover);
 }
 
 .card-content {

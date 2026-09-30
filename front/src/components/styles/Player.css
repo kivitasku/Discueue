@@ -12,9 +12,9 @@
   padding: 8px 24px;
   box-sizing: border-box;
 
-  background: #181818;
-  color: #ffffff;
-  border-top: 1px solid #282828;
+  background: var(--color-primary);
+  color: var(--color-text-primary);
+  border-top: 1px solid var(--color-secondary);
 
  z-index: 1200;
 }
@@ -36,7 +36,7 @@
 .player-info p {
   margin: 2px 0;
 
-  color: #b3b3b3;
+  color: var(--color-text-secondary);
 
   overflow: hidden;
   text-overflow: ellipsis;
@@ -63,7 +63,7 @@
 }
 
 .player-album-cover .album-cover-placeholder {
-  background: #333333;
+  background: var(--color-album-placeholder);
 }
 
 .queue-settings-container {
@@ -86,12 +86,12 @@
   border-radius: 6px;
 
   background: transparent;
-  color: #ffffff;
+  color: var(--color-text-primary);
 
   font-size: 20px;
   cursor: pointer;
 }
 
 .queue-button:hover {
-  background: #282828;
+  background: var(--color-secondary);
 }

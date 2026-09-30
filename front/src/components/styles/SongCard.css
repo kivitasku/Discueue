@@ -14,7 +14,7 @@
   align-items: center;
   width: 100%;
 
-  outline: 6px solid #2b9c1c;
+  outline: 6px solid var(--color-current-song);
   border-radius: 99px;
 
   box-sizing: border-box;
@@ -22,7 +22,7 @@
 
 
 .song-current:hover {
-  background: #2b9c1c;
+  background: var(--color-current-song);
 }
 
 .song-album-cover {
@@ -41,7 +41,7 @@
 }
 
 .song-album-cover-placeholder {
-  background: #333;
+  background: var(--color-album-placeholder);
 }
 
 .song-info {
@@ -71,7 +71,7 @@
 
 .song-artist-link:hover,
 .song-album-link:hover {
-  color: blue;
+  color: var(--color-text-hover);
 }
 
 .song-settings {
@@ -90,13 +90,13 @@
   border: none;
   border-radius: 6px;
   background: transparent;
-  color: #fff;
+  color: var(--color-text-primary);
   font-size: 20px;
   cursor: pointer;
 }
 
 .song-settings-button:hover {
-  background: #130a0a;
+  background: var(--color-object);
 }
 
 .song-artist-link,

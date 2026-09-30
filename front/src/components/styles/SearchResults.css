@@ -1,6 +1,6 @@
 .show-more-button {
-    background-color: #425241;
-    color: #fff;
+    background-color: var(--color-text-secondary);
+    color: var(--color-text-primary);
     border: none;
     padding: 10px 20px;
     cursor: pointer;
@@ -8,5 +8,5 @@
 }
 
 .show-more-button:hover {
-    background-color: #0056b3;
+    background-color: var(--color-text-hover);
 }
