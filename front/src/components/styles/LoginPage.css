@@ -5,7 +5,7 @@
   align-items: center;
   padding: 20px;
   box-sizing: border-box;
-  background: var(--color-primary);
+  background: #444;
 }
 
 .login-form {
@@ -14,7 +14,7 @@
   padding: 40px;
   box-sizing: border-box;
 
-  background: var(--color-object);
+  background: var(--color-primary);
   border: 1px solid var(--color-secondary);
   border-radius: 14px;
 
@@ -53,7 +53,7 @@
 
 .login-field label {
   margin-bottom: 7px;
-  color: #ccc;
+  color: var(--color-text-secondary);
   font-size: 14px;
   font-weight: 500;
 }
@@ -63,10 +63,10 @@
   padding: 12px 14px;
   box-sizing: border-box;
 
-  background: #292929;
-  color: #ffffff;
+  background: var(--color-secondary);
+  color: var(--color-text-primary);
 
-  border: 1px solid #444;
+  border: 1px solid var(--color-text-secondary);
   border-radius: 8px;
 
   font-size: 15px;
@@ -91,7 +91,7 @@
   color: var(--color-alert-text);
   background: var(--color-alert);
 
-  border: 1px solid #5a2929;
+  border: 1px solid var(--color-alert-accent);
   border-radius: 7px;
 
   font-size: 14px;
