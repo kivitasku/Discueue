@@ -63,9 +63,13 @@ pipeline {
 
         stage('Frontend Build') {
             steps {
+                sh 'cp /home/ubuntu/discueue/config/front.env front/.env'
+
                 dir('front') {
                     sh 'npm run build'
                 }
+
+                sh 'rm -f front/.env'
             }
         }
 
