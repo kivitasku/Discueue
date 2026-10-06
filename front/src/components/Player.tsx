@@ -1,7 +1,8 @@
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import type { Song as SongType } from "../types/Song";
 import "./styles/Player.css";
 import QueuePanel from "./QueuePanel";
+import { mediaSession } from "../api/mediaSession";
 
 interface PlayerProps {
   song: SongType | null;
@@ -28,22 +29,59 @@ export default function Player({
 const audioRef = useRef<HTMLAudioElement | null>(null);
 
 useEffect(() => {
-  if (!song || !audioRef.current || !autoPlay) {
-    return;
-  }
+  console.log("AUDIO ELEMENT:", audioRef.current);
+}, []);
 
-  const playSong = async () => {
-    try {
-      console.log("Trying to play:", song.title);
-      await audioRef.current?.play();
-      console.log("Playback started:", song.title);
-    } catch (error) {
-      console.error("AUTOPLAY FAILED:", error);
+
+useEffect(() => {
+  console.log(
+    "audio element:",
+    audioRef.current,
+    "src:",
+    audioRef.current?.src
+  );
+}, [song]);
+
+  /*
+   * IMPORTANT:
+   *
+   * This callback is also used by the Android/iOS
+   * lock-screen "Next" button.
+   */
+  const handleNext = useCallback(async () => {
+    await onSongEnded();
+  }, [onSongEnded]);
+
+  mediaSession({
+    song,
+    audioRef,
+    onNext: handleNext,
+  });
+
+    /*
+   * Play whenever the song changes.
+   */
+  useEffect(() => {
+    if (!song || !audioRef.current || !autoPlay) {
+      return;
     }
-  };
 
-  playSong();
-}, [song, autoPlay]);
+    const playSong = async () => {
+      try {
+        console.log("Trying to play:", song.title);
+
+        await audioRef.current?.play();
+
+        console.log("Playback started:", song.title);
+      } catch (error) {
+        console.error("AUTOPLAY FAILED:", error);
+      }
+    };
+
+    playSong();
+  }, [song, autoPlay]);
+
+
 
 
 const handleSongEnded = async () => {
@@ -111,10 +149,12 @@ const handleSongEnded = async () => {
       </div>
 
       <audio
+        id="main-audio"
         ref={audioRef}
         controls
         src={song.file_path}
         onEnded={handleSongEnded}
+        preload="auto"
       />
 
       
