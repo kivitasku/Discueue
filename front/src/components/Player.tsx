@@ -85,6 +85,19 @@ useEffect(() => {
 
 
 const handleSongEnded = async () => {
+    console.log(
+    "================ SONG ENDED ================"
+  );
+
+  console.log(
+    "Screen state:",
+    document.visibilityState
+  );
+
+  console.log(
+    "Current song:",
+    song?.title
+  );
   if (!song) {
     return;
   }
