@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import type { Song as SongType } from "../types/Song";
 import "./styles/Player.css";
 import QueuePanel from "./QueuePanel";
@@ -48,14 +48,12 @@ useEffect(() => {
    * This callback is also used by the Android/iOS
    * lock-screen "Next" button.
    */
-  const handleNext = useCallback(async () => {
+ /*  const handleNext = useCallback(async () => {
     await onSongEnded();
-  }, [onSongEnded]);
+  }, [onSongEnded]); */
 
   useMediaSession({
     song,
-    audioRef,
-    onNext: handleNext,
   });
 
     /*
