@@ -103,31 +103,38 @@ export function useMediaSession({
    * Keep Media Session playback state synchronized
    * with the actual audio element.
    */
-  useEffect(() => {
-    if (!("mediaSession" in navigator)) {
-      return;
-    }
+useEffect(() => {
+  if (!("mediaSession" in navigator)) {
+    return;
+  }
 
-    const audio = audioRef.current;
+  const audio = audioRef.current;
 
-    if (!audio) {
-      return;
-    }
+  if (!audio) {
+    return;
+  }
 
-    const handlePlay = () => {
-      navigator.mediaSession.playbackState = "playing";
-    };
+  const handleAudioPlay = () => {
+    navigator.mediaSession.playbackState = "playing";
 
-    const handlePause = () => {
-      navigator.mediaSession.playbackState = "paused";
-    };
+    console.log(
+      "AUDIO PLAYING:",
+      song?.title,
+      "MEDIA SESSION:",
+      navigator.mediaSession.metadata?.title
+    );
+  };
 
-    audio.addEventListener("play", handlePlay);
-    audio.addEventListener("pause", handlePause);
+  const handleAudioPause = () => {
+    navigator.mediaSession.playbackState = "paused";
+  };
 
-    return () => {
-      audio.removeEventListener("play", handlePlay);
-      audio.removeEventListener("pause", handlePause);
-    };
-  }, []);
+  audio.addEventListener("play", handleAudioPlay);
+  audio.addEventListener("pause", handleAudioPause);
+
+  return () => {
+    audio.removeEventListener("play", handleAudioPlay);
+    audio.removeEventListener("pause", handleAudioPause);
+  };
+}, [audioRef, song]);
 }
