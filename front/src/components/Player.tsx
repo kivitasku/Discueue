@@ -2,7 +2,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import type { Song as SongType } from "../types/Song";
 import "./styles/Player.css";
 import QueuePanel from "./QueuePanel";
-import { mediaSession } from "../api/mediaSession";
+import { useMediaSession } from "../api/mediaSession";
 
 interface PlayerProps {
   song: SongType | null;
@@ -52,7 +52,7 @@ useEffect(() => {
     await onSongEnded();
   }, [onSongEnded]);
 
-  mediaSession({
+  useMediaSession({
     song,
     audioRef,
     onNext: handleNext,

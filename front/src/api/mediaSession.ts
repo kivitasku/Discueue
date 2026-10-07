@@ -8,7 +8,7 @@ interface MediaSessionProps {
   onNext: () => Promise<void>;
 }
 
-export function mediaSession({
+export function useMediaSession({
   song,
   audioRef,
   onNext,
