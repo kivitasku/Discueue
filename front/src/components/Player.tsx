@@ -102,6 +102,10 @@ const handleSongEnded = async () => {
     return;
   }
   await onSongEnded();
+  console.log(
+    "Next song should be playing now:",
+    song?.title
+  );
 };
 
 
