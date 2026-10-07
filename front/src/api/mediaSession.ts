@@ -33,6 +33,8 @@ export function mediaSession({
       return;
     }
 
+  console.log("MEDIA SESSION UPDATE:", song.title);
+
     navigator.mediaSession.metadata = new MediaMetadata({
       title: song.title ?? "Unknown song",
       artist: song.artists?.name ?? "Unknown artist",
