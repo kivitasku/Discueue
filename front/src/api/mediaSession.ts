@@ -4,27 +4,19 @@ import type { Song as SongType } from "../types/Song";
 
 interface MediaSessionProps {
   song: SongType | null;
+  onNext: () => void;
 }
 
 export function useMediaSession({
   song,
+  onNext,
 }: MediaSessionProps) {
-  // Initialize Media Session once
-  useEffect(() => {
-    if (!("mediaSession" in navigator)) {
-      return;
-    }
-
-    console.log("MEDIA SESSION INITIALIZED");
-  }, []);
 
   // Update metadata whenever the song changes
   useEffect(() => {
     if (!("mediaSession" in navigator) || !song) {
       return;
     }
-
-    console.log("MEDIA SESSION UPDATE:", song.title);
 
     navigator.mediaSession.metadata = new MediaMetadata({
       title: song.title ?? "Unknown song",
@@ -40,4 +32,23 @@ export function useMediaSession({
         : [],
     });
   }, [song]);
+
+  //set actionHandlers
+  useEffect(() => {
+  if (!("mediaSession" in navigator)) {
+    return;
+  }
+
+  navigator.mediaSession.setActionHandler(
+    "nexttrack",
+    onNext
+  );
+
+  return () => {
+    navigator.mediaSession.setActionHandler(
+      "nexttrack",
+      null
+    );
+  };
+}, [onNext]);
 }

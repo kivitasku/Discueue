@@ -26,39 +26,11 @@ export default function Player({
   const [queueOpen, setQueueOpen] = useState(false);
 
 
-const audioRef = useRef<HTMLAudioElement | null>(null);
-
-useEffect(() => {
-  console.log("AUDIO ELEMENT:", audioRef.current);
-}, []);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
 
 
-useEffect(() => {
-  console.log(
-    "audio element:",
-    audioRef.current,
-    "src:",
-    audioRef.current?.src
-  );
-}, [song]);
 
-  /*
-   * IMPORTANT:
-   *
-   * This callback is also used by the Android/iOS
-   * lock-screen "Next" button.
-   */
- /*  const handleNext = useCallback(async () => {
-    await onSongEnded();
-  }, [onSongEnded]); */
-
-  useMediaSession({
-    song,
-  });
-
-    /*
-   * Play whenever the song changes.
-   */
+   // Play whenever the song changes
   useEffect(() => {
     if (!song || !audioRef.current || !autoPlay) {
       return;
@@ -66,11 +38,9 @@ useEffect(() => {
 
     const playSong = async () => {
       try {
-        console.log("Trying to play:", song.title);
 
         await audioRef.current?.play();
 
-        console.log("Playback started:", song.title);
       } catch (error) {
         console.error("AUTOPLAY FAILED:", error);
       }
@@ -81,21 +51,9 @@ useEffect(() => {
 
 
 
-
+//play next song on songend and skip
 const handleSongEnded = async () => {
-    console.log(
-    "================ SONG ENDED ================"
-  );
 
-  console.log(
-    "Screen state:",
-    document.visibilityState
-  );
-
-  console.log(
-    "Current song:",
-    song?.title
-  );
   if (!song) {
     return;
   }
@@ -107,7 +65,10 @@ const handleSongEnded = async () => {
   );
 };
 
-
+  useMediaSession({
+    song,
+    onNext: handleSongEnded,
+  });
 
   if (!song) {
     return (
